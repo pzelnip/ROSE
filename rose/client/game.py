@@ -56,7 +56,7 @@ class Game(component.Component):
         self.track.update(info)
         self.players = {p["name"]: p for p in info['players']}
         self.dashboard.update(self.players, info["timeleft"])
-        for player in self.players.itervalues():
+        for player in list(self.players.values()):
             self.cars[player['car']].update(player)
         self.finish_line.update(info)
         self.draw(self.surface)
@@ -67,7 +67,7 @@ class Game(component.Component):
         surface.fill(config.background_color)
         self.track.draw(surface)
         self.dashboard.draw(surface)
-        for player in self.players.itervalues():
+        for player in list(self.players.values()):
             self.cars[player['car']].draw(surface)
         self.finish_line.draw(surface)
         pygame.display.flip()
@@ -105,18 +105,18 @@ class Game(component.Component):
     # Handling client events
 
     def client_connected(self):
-        print 'client connected: joining as', self.name
+        print('client connected: joining as %s' % self.name)
         msg = message.Message('join', {"name": self.name})
         self.client.send_message(msg)
 
     def client_disconnected(self, reason):
-        print 'client disconnected:', reason.getErrorMessage()
+        print('client disconnected: %s' % reason.getErrorMessage())
 
     def client_failed(self, reason):
-        print 'client failed:', reason.getErrorMessage()
+        print('client failed: %s' % reason.getErrorMessage())
 
     def client_error(self, error):
-        print 'client error:', error.get('message')
+        print('client error: %s' % error.get('message'))
         reactor.stop()
 
     def client_update(self, info):

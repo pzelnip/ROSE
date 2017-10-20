@@ -30,7 +30,8 @@ class Car(component.Component):
         surface.blit(self.texture, (x, y))
         self.draw_label(surface, (x, y))
 
-    def draw_label(self, surface, (x, y)):
+    def draw_label(self, surface, x_and_y):
+        x, y = x_and_y
         font = pygame.font.SysFont(pygame.font.get_default_font(), 20)
         text = font.render(self.name, 1, (0,0,0))
         text_x = x + config.row_height / 2 - text.get_width() / 2

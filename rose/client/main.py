@@ -25,7 +25,7 @@ class Client(basic.LineReceiver):
         elif msg.action == 'error':
             self.factory.error(msg.payload)
         else:
-            print 'Unexpected message:', msg.action, msg.payload
+            print("Unexpected message: %s %s" % (msg.action, msg.payload))
 
 
 class ClientFactory(protocol.ReconnectingClientFactory):
@@ -67,12 +67,12 @@ class ClientFactory(protocol.ReconnectingClientFactory):
 
 def main():
     if len(sys.argv) < 2:
-        print 'usage: rose-client drive-module'
+        print("usage: rose-client drive-module")
         sys.exit(2)
 
     with open(sys.argv[1]) as f:
         d = {}
-        exec f in d, d
+        exec(f, d, d)
 
     reactor.connectTCP(d['server_address'], config.game_port,
                        ClientFactory(d['driver_name'], d['drive']))

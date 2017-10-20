@@ -38,7 +38,7 @@ class Track(component.Component):
                         (0, config.dashboard_height + (i * config.row_height)))
 
         # Draw obstacles on top of road:
-        for (x, y), obs in self._track.iteritems():
+        for (x, y), obs in list(self._track.items()):
             texture = self._obstacle_textures[obs]
             coordinates = self._get_surface_coordinates(x, y)
             surface.blit(texture, coordinates)
